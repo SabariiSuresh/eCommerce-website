@@ -74,7 +74,8 @@ ecommerce/
 │   ├── urls.py
 │   └── wsgi.py
 ├── manage.py
-└── README.md
+├───README.md
+└──requirements.txt
 ```
 
 ## Known Issues
