@@ -1,0 +1,141 @@
+{% extends 'store/base.html' %}
+
+{% block title %}{{ product.name }} - My eCommerce Store{% endblock %}
+
+{% block content %}
+<style>
+  .product-detail-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    display: flex;
+    gap: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-wrap: wrap;
+  }
+
+  .product-image {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  .product-image img:hover {
+    transform: scale(1.03);
+  }
+
+  .product-info {
+    flex: 2;
+    min-width: 300px;
+  }
+
+  .product-info h1 {
+    font-size: 32px;
+    color: #111;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .product-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #b12704; /* Amazon price red */
+    margin-bottom: 25px;
+  }
+
+  .product-info p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .product-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .product-buttons button,
+  .product-buttons a.back-btn {
+    background-color: #febd69; /* Amazon orange */
+    color: #111;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    user-select: none;
+  }
+
+  .product-buttons button:hover,
+  .product-buttons a.back-btn:hover {
+    background-color: #f3a847;
+    transform: translateY(-2px);
+  }
+
+  /* Back button as a link styled as button */
+  .product-buttons a.back-btn {
+    display: inline-block;
+  }
+
+  @media (max-width: 768px) {
+    .product-detail-wrapper {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .product-info h1 {
+      font-size: 26px;
+    }
+
+    .product-price {
+      font-size: 20px;
+    }
+
+    .product-buttons {
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="product-detail-wrapper">
+  <div class="product-image">
+    {% if product.image_url %}
+      <img src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% else %}
+      <p><em>No image available</em></p>
+    {% endif %}
+  </div>
+
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <div class="product-price">₹{{ product.price }}</div>
+    <p>{{ product.description }}</p>
+
+    <form action="{% url 'add_to_cart' product.id %}" method="post">
+      {% csrf_token %}
+      <div class="product-buttons">
+        <button type="submit">Add to Cart</button>
+        <a href="{% url 'home' %}" class="back-btn" role="button" tabindex="0">Back to Products</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

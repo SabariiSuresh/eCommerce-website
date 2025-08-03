@@ -1,0 +1,134 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Your Cart - My eCommerce Store{% endblock %}
+
+{% block content %}
+<style>
+  .cart-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  .cart-wrapper h1 {
+    font-size: 32px;
+    margin-bottom: 35px;
+    color: #131921; /* Amazon dark blue */
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-align: center;
+  }
+
+  .cart-item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-bottom: 22px;
+    background-color: #fefefe;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease, transform 0.25s ease;
+  }
+
+  .cart-item:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+  }
+
+  .cart-item h3 {
+    margin: 0 0 12px;
+    color: #007185; /* Amazon link blue */
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .cart-item p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #232f3e; /* Amazon text dark */
+  }
+
+  .cart-buttons {
+    margin-top: 18px;
+    display: flex;
+    gap: 14px;
+  }
+
+  .cart-buttons a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .cart-buttons button {
+    width: 100%;
+    background-color: #febd69; /* Amazon orange */
+    color: #111;
+    border: none;
+    padding: 12px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .cart-buttons button:hover {
+    background-color: #f3a847;
+    transform: translateY(-2px);
+  }
+
+  /* Remove button special styling */
+  .cart-buttons button.remove-btn {
+    background-color: #dc3545; /* Bootstrap red */
+    color: white;
+  }
+
+  .cart-buttons button.remove-btn:hover {
+    background-color: #b02a37;
+  }
+
+  .cart-total {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+    text-align: right;
+    margin-top: 35px;
+    letter-spacing: 1px;
+  }
+
+  .empty-cart {
+    font-size: 20px;
+    color: #777;
+    text-align: center;
+    margin-top: 80px;
+  }
+</style>
+
+<div class="cart-wrapper">
+  <h1>Your Shopping Cart</h1>
+
+  {% if cart %}
+    {% for item in cart %}
+      <div class="cart-item">
+        <h3>{{ item.product.name }}</h3>
+        <p>Price: ₹{{ item.product.price }}</p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Total: ₹{{ item.total }}</p>
+        <div class="cart-buttons">
+          <a href="{% url 'checkout' %}"><button>Proceed to Checkout</button></a>
+          <a href="{% url 'remove_from_cart' item.product.id %}">
+            <button class="remove-btn">Remove</button>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+    <div class="cart-total">Total: ₹{{ cart.get_total_price }}</div>
+  {% else %}
+    <p class="empty-cart">🛒 Your cart is empty.</p>
+  {% endif %}
+</div>
+{% endblock %}

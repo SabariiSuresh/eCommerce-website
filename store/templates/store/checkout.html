@@ -1,0 +1,148 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Checkout - My eCommerce Store{% endblock %}
+
+{% block content %}
+<style>
+.checkout-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.checkout-container h1,
+.checkout-container h2 {
+  color: #111;
+  margin-bottom: 22px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #222;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-total {
+  text-align: right;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 28px 0 38px 0;
+  color: #111;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.empty-cart {
+  font-size: 17px;
+  color: #666;
+  margin: 30px 0;
+  text-align: center;
+}
+
+form {
+  margin-top: 35px;
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 22px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  border-color: #f90;
+  outline: none;
+  box-shadow: 0 0 5px #f90;
+}
+
+button[type="submit"] {
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  color: #111;
+  padding: 14px 28px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #ddb347;
+}
+
+@media (max-width: 600px) {
+  .checkout-container {
+    padding: 25px 20px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+  }
+
+  .checkout-total {
+    font-size: 20px;
+  }
+}
+
+</style>
+
+<div class="checkout-container">
+  <h1>Checkout</h1>
+
+  {% if cart %}
+    {% for item in cart %}
+      <div class="cart-item">
+        <div>{{ item.product.name }} (x{{ item.quantity }})</div>
+        <div>₹{{ item.total }}</div>
+      </div>
+    {% endfor %}
+    <p class="checkout-total">Total: ₹{{ cart.get_total_price }}</p>
+  {% else %}
+    <p class="empty-cart">🛒 Your cart is empty.</p>
+  {% endif %}
+
+  <h2>Shipping Details</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Place Order</button>
+  </form>
+</div>
+{% endblock %}

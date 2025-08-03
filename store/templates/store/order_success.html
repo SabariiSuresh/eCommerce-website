@@ -1,0 +1,62 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order Placed - My eCommerce Store{% endblock %}
+
+{% block content %}
+<style>
+  .order-success {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #e9f6ef;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .order-success h1 {
+    color: #2e7d32;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .order-success p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .order-success a {
+    background-color: #1a73e8;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .order-success a:hover {
+    background-color: #0c5ec0;
+    transform: translateY(-2px);
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<div class="order-success">
+  <h1>✅ Order Placed Successfully!</h1>
+  <p>Thank you, <strong>{{ order.user.username }}</strong>!<br>Your order ID is <strong>#{{ order.id }}</strong>.</p>
+  <a href="{% url 'home' %}">🛍️ Continue Shopping</a>
+</div>
+{% endblock %}

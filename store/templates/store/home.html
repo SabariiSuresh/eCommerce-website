@@ -1,0 +1,212 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Product List - My eCommerce Store{% endblock %}
+
+{% block content %}
+<style>
+  .product-list-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #131921;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+
+  .search-filter-form {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-filter-form input[type="text"],
+  .search-filter-form select {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    min-width: 200px;
+  }
+
+  .search-filter-form button,
+  .search-filter-form .clear-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+
+  .search-filter-form button {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .search-filter-form button:hover {
+    background-color: #0056b3;
+  }
+
+  .search-filter-form .clear-button {
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+  }
+
+  .search-filter-form .clear-button:hover {
+    background-color: #bb2d3b;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    background-color: #f7f7f7;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .product-details {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-details h2 {
+    font-size: 20px;
+    color: #111;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .product-details p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+
+  .product-details strong {
+    font-size: 18px;
+    color: #b12704;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+
+  .product-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .product-buttons a {
+    flex: 1;
+    text-decoration: none;
+  }
+
+  .product-buttons button {
+    width: 100%;
+    padding: 10px;
+    background-color: #febd69;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #111;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .product-buttons button:hover {
+    background-color: #f3a847;
+  }
+
+  .no-products {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 60px;
+  }
+
+  @media (max-width: 480px) {
+    .product-card img {
+      height: 180px;
+    }
+  }
+</style>
+
+<div class="product-list-container">
+  <h1>Shop Our Products</h1>
+
+  <form method="get" class="search-filter-form">
+    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+    <select name="category">
+      <option value="">All Categories</option>
+      {% for key, value in categories %}
+        <option value="{{ key }}" {% if category == key %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Search</button>
+  </form>
+
+  {% if products %}
+    <div class="products-grid">
+      {% for product in products %}
+        <div class="product-card">
+          {% if product.image_url %}
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+          {% else %}
+            <img src="https://via.placeholder.com/280x240?text=No+Image" alt="No image available">
+          {% endif %}
+          <div class="product-details">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            <strong>₹{{ product.price }}</strong>
+            <div class="product-buttons">
+              <a href="{% url 'add_to_cart' product.id %}"><button>Add to Cart</button></a>
+              <a href="{% url 'product_detail' product.id %}"><button>View Details</button></a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-products">No products available at the moment. Please check back later.</p>
+  {% endif %}
+</div>
+{% endblock %}
