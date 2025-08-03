@@ -1,6 +1,27 @@
-echo env/ > .gitignore
-echo __pycache__/ >> .gitignore
-echo *.sqlite3 >> .gitignore
-echo *.pyc >> .gitignore
-echo db.sqlite3 >> .gitignore
-echo staticfiles/ >> .gitignore
+# Env folder for virtualenv
+env/
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database files
+*.sqlite3
+db.sqlite3
+
+# Static files collected by collectstatic
+staticfiles/
+
+# Django media
+media/
+
+# VSCode settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Environment variables file
+.env
