@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -89,6 +89,9 @@ DATABASES = {
     }
 }
 
+DATABASES = {
+    'default': dj_database_url.config(default='postgresql://ecommercedb_qmxo_user:prsOAa1X1MoATHQad65a4I15OZiAA8uq@dpg-d27q8t49c44c73fakgug-a.oregon-postgres.render.com/ecommercedb_qmxo')
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -125,6 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
