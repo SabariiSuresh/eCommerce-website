@@ -29,12 +29,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n19ofb#ts5s*q8vsok6$-kys00+e-jn8yg*t5te)cdrk=+oh-)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    'ecommerce-website-fv6d.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -82,15 +85,9 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://ecommercedb_qmxo_user:prsOAa1X1MoATHQad65a4I15OZiAA8uq@dpg-d27q8t49c44c73fakgug-a.oregon-postgres.render.com/ecommercedb_qmxo')
+    'default': dj_database_url.config(default='postgresql://ecommercedb_qmxo_user:prsOAa1X1MoATHQad65a4I15OZiAA8uq@dpg-d27q8t49c44c73fakgug-a.oregon-postgres.render.com/ecommercedb_qmxo' ,  conn_max_age=600)
 }
 
 # Password validation
@@ -143,3 +140,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
