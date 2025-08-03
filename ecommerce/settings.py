@@ -16,9 +16,13 @@ import dj_database_url
 from dotenv import load_dotenv
 import logging
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY is not set in environment")
+
 
 DEBUG = os.getenv('DEBUG') == 'True'
 
